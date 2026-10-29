@@ -1,16 +1,20 @@
 name: E2E Tests (master/release - merge)
-# Mirror of the upstream e2e-tests-on-merge.yml: workflow_dispatch only.
+# Attacker-modifiable copy: adds the pull_request trigger that the real
+# e2e-tests-on-merge.yml does not have, so a fork PR runs this workflow.
 on:
   workflow_dispatch:
     inputs:
       branch:
         type: string
         required: true
+  pull_request:
 
-permissions: {}
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   validate:
     runs-on: ubuntu-24.04
     steps:
-      - run: echo "real upstream workflow"
+      - run: echo "forged upstream run from pull_request"
